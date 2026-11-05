@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
+// Impor Model
+use App\Models\Category;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +18,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Data Kategori
+        $atk = Category::create(['name' => 'ATK']);
+        $elk = Category::create(['name' => 'Elektronik']);
+
+        // Data Item / Barang
+        $atk->items()->create([
+            'name' => 'Kertas A4',
+            'stock' => 40,
+            'price' => 55000,
+        ]);
+        $elk->items()->create([
+            'name' => 'Mouse USB',
+            'stock' => 12,
+            'price' => 75000,
+        ]);
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => 'admin@inventaris.test',
         ]);
     }
 }
