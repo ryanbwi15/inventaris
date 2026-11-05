@@ -26,7 +26,7 @@ class ItemController extends Controller
                     });
             })
             ->orderBy('name')
-            ->paginate(10)
+            ->paginate(2)
             ->withQueryString();
 
         return view('items/index', compact('judul', 'item', 'search'));
