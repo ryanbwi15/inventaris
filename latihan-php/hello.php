@@ -1,3 +1,4 @@
 <?php
-$nama = "Budi";
+
+$nama = 'Budi';
 echo "Halo, $nama!";

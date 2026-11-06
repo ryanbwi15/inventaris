@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItemRequest;
-use App\Models\Item;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Item;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return View
      */
     public function index(Request $request)
     {
@@ -35,17 +40,22 @@ class ItemController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return View
      */
     public function create()
     {
         $judul = 'Tambah Data Barang';
         // Mengambil seluruh data kategori
         $categories = Category::all();
+
         return view('items/create', compact('judul', 'categories'));
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @return RedirectResponse
      */
     public function store(StoreItemRequest $request)
     {
@@ -57,12 +67,15 @@ class ItemController extends Controller
         }
 
         Item::create($data);
+
         return redirect()->route('items.index')
             ->with('success', 'Data Barang berhasil ditambahkan.');
     }
 
     /**
      * Display the specified resource.
+     *
+     * @return void
      */
     public function show(Item $item)
     {
@@ -71,6 +84,8 @@ class ItemController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @return View
      */
     public function edit(Item $item)
     {
@@ -82,6 +97,8 @@ class ItemController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @return RedirectResponse
      */
     public function update(Request $request, Item $item)
     {
@@ -114,6 +131,8 @@ class ItemController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @return RedirectResponse
      */
     public function destroy(Item $item)
     {
@@ -124,11 +143,16 @@ class ItemController extends Controller
 
         // Hapus data barang dari database
         $item->delete();
+
         return redirect()->route('items.index')
             ->with('success', 'Data Barang dihapus.');
     }
 
-    // Fungsi Cetak PDF
+    /**
+     * Stream a PDF report of inventory items.
+     *
+     * @return Response
+     */
     public function cetakPdf(Request $request)
     {
         $search = $request->q;
@@ -155,6 +179,7 @@ class ItemController extends Controller
             'totalNilai'
         ));
         $pdf->setPaper('a4', 'portrait');
+
         return $pdf->stream('laporan-data-barang.pdf');
     }
 }

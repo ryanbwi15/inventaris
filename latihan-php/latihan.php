@@ -1,10 +1,12 @@
 <?php
+
 function hitungDiskon(float $harga, float $persen): float
 {
     if ($persen < 0 || $persen > 100) {
         return $harga;
     }
     $potongan = $harga * $persen / 100;
+
     return $harga - $potongan;
 }
 echo "\nHasil Menghitung Diskon :\n";
@@ -43,7 +45,7 @@ echo "\nHasil pencarian barang 'mouse':\n";
 
 foreach ($hasilCari as $b) {
     echo "- {$b['nama']} | Stok: {$b['stok']} | Harga: Rp "
-        . number_format($b['harga'], 0, ',', '.') . "\n";
+        .number_format($b['harga'], 0, ',', '.')."\n";
 }
 
 function stokPerKategori(array $daftarBarang): array
@@ -51,11 +53,12 @@ function stokPerKategori(array $daftarBarang): array
     $hasil = [];
     foreach ($daftarBarang as $b) {
         $kategori = $b['kategori'];
-        if (!isset($hasil[$kategori])) {
+        if (! isset($hasil[$kategori])) {
             $hasil[$kategori] = 0;
         }
         $hasil[$kategori] += $b['stok'];
     }
+
     return $hasil;
 }
 echo "\nTotal stok per kategori:\n";

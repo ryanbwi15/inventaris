@@ -12,6 +12,9 @@ use Illuminate\View\View;
 
 class LoginController extends Controller
 {
+    /**
+     * Authenticate a user and redirect to the intended page.
+     */
     public function store(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
@@ -41,11 +44,17 @@ class LoginController extends Controller
             ->onlyInput('email');
     }
 
+    /**
+     * Display the login form.
+     */
     public function create(): View
     {
         return view('auth.login');
     }
 
+    /**
+     * Log out the user and invalidate the current session.
+     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::logout();
