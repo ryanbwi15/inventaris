@@ -21,7 +21,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('categories', CategoryController::class);
-    Route::resource('items', ItemController::class);
     Route::get('/items/cetak-pdf', [ItemController::class, 'cetakPdf'])->name('items.pdf');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+
+    Route::resource('items', ItemController::class);
 });
